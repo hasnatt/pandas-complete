@@ -1,4 +1,5 @@
 import pandas as pd
+from complete import Complete
 
 df = pd.DataFrame(
     data={
@@ -9,3 +10,6 @@ df = pd.DataFrame(
         "value2": [4, 5, 6, 7],
     }
 )
+
+c = Complete(df, nest=['item_id', 'item_name'], columns=[df['group']])
+print(c.fill_df())
