@@ -9,8 +9,12 @@ class Complete:
     def __init__(self, df: pd.DataFrame, nest, columns):
         self.df = df
         self.nest = nest
-        self.columns = columns
-        self.column_names = [col.name for col in columns]
+        if all(isinstance(x, str) for x in columns):
+            self.columns = [self.df[c] for c in columns]
+            self.column_names = columns
+        elif all(isinstance(x, pd.Series) for x in columns):
+            self.columns = columns
+            self.column_names = [col.name for col in columns]  
 
     def nesting(self):
         """

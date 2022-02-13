@@ -11,5 +11,21 @@ df = pd.DataFrame(
     }
 )
 
+# columns=['group', 'item_id'] 
+# columns1=[df['group'], df['item_id']] 
+
+# print(all(isinstance(x, str) for x in columns))
+
+# print(all(isinstance(x, pd.Series) for x in columns1))
+# quit()
+# series_col = [df[c] for c in columns]
+
+
+
+# Cross all possible 'group' values with the unique pairs of
+# `(item_id, item_name)` that already exist in the data
+# complete(df, group, nesting(item_id, item_name))
 c = Complete(df, nest=['item_id', 'item_name'], columns=[df['group']])
+
+
 print(c.fill_df())
