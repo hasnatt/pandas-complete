@@ -26,6 +26,6 @@ df = pd.DataFrame(
 # `(item_id, item_name)` that already exist in the data
 # complete(df, group, nesting(item_id, item_name))
 c = Complete(df, nest=['item_id', 'item_name'], columns=[df['group']])
-
+c1 = Complete(df, nest=['item_id', 'item_name'], columns='group'])
 
 print(c.fill_df())
