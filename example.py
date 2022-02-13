@@ -11,21 +11,20 @@ df = pd.DataFrame(
     }
 )
 
-# columns=['group', 'item_id'] 
-# columns1=[df['group'], df['item_id']] 
+# print(df.index.levels[0])
 
-# print(all(isinstance(x, str) for x in columns))
+# df = df.set_index(['group', 'item_id', 'item_name'])
+# mux = pd.MultiIndex.from_product([df.index.levels[0], df.index.levels[1],df.index.levels[2]],names=['group', 'item_id', 'item_name'])
+# df = df.reindex(mux).reset_index()
+# print (df)
 
-# print(all(isinstance(x, pd.Series) for x in columns1))
 # quit()
-# series_col = [df[c] for c in columns]
-
-
 
 # Cross all possible 'group' values with the unique pairs of
 # `(item_id, item_name)` that already exist in the data
 # complete(df, group, nesting(item_id, item_name))
-c = Complete(df, nest=['item_id', 'item_name'], columns=[df['group']])
-c1 = Complete(df, nest=['item_id', 'item_name'], columns='group'])
-
-print(c.fill_df())
+# c = Complete(df,columns=['group','value1'], nest=['item_id','item_name'])
+# c1 = Complete(df, nest=['item_id', 'item_name'], columns=['group'])
+c = Complete(df,columns=['group','item_id', 'item_name'])
+x = c.fill_df_2()
+print(x)
