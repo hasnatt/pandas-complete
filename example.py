@@ -13,7 +13,7 @@ df = pd.DataFrame(
 
 # Generate all possible combinations of `group`, `item_id`, and `item_name`
 # (whether or not they appear in the data)
-# print(complete(df, columns=["group", "item_id", "item_name"]))
+print(complete(df, columns=["group", "item_id", "item_name"]))
 
 # Cross all possible `group` values with the unique pairs of
 # `(item_id, item_name)` that already exist in the data
@@ -22,4 +22,11 @@ print(complete(df, columns=["group"], nest=["item_id", "item_name"]))
 
 # You can also choose to fill in missing values. By default, both implicit
 # (new) and explicit (pre-existing) missing values are filled.
-# print(complete(df, columns=["group"], nest=["item_id", "item_name"], fill={"value1": 0, "value2": 99}))
+print(
+    complete(
+        df,
+        columns=["group"],
+        nest=["item_id", "item_name"],
+        fill={"value1": 0, "value2": 99},
+    )
+)

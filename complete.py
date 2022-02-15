@@ -1,8 +1,3 @@
-    """[summary]
-
-    Returns:
-        [type]: [description]
-    """
 from itertools import product
 from typing import List, Dict
 import pandas as pd
@@ -32,7 +27,7 @@ class Complete:
         nest: List[str] = None,
         fill: dict = None,
     ):
-        
+       
         self.df = df
         self.nest = nest
         if all(isinstance(x, str) for x in columns):
@@ -50,8 +45,7 @@ class Complete:
         return self.df[self.nest].drop_duplicates(keep="first").values.tolist()
 
     def product_without_nest(self) -> pd.DataFrame:
-        """[summary]
-        """
+        """Generate product"""
         def get_product():
             """generate all possible combinations of the columns using product """
             product_list = []
@@ -73,8 +67,7 @@ class Complete:
         return merge_product_to_df()
 
     def product_with_nest(self) -> pd.DataFrame:
-        """[summary]
-        """
+        """Generate product"""
         def get_product():
             """generate all possible combinations of the columns using product with unique nest combinations"""
             product_list = []
