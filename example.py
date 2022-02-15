@@ -1,5 +1,5 @@
 import pandas as pd
-from complete import Complete
+from complete import complete
 
 df = pd.DataFrame(
     data={
@@ -11,20 +11,15 @@ df = pd.DataFrame(
     }
 )
 
-# print(df.index.levels[0])
+# Generate all possible combinations of `group`, `item_id`, and `item_name`
+# (whether or not they appear in the data)
+print(complete(df, columns=["group", "item_id", "item_name"]))
 
-# df = df.set_index(['group', 'item_id', 'item_name'])
-# mux = pd.MultiIndex.from_product([df.index.levels[0], df.index.levels[1],df.index.levels[2]],names=['group', 'item_id', 'item_name'])
-# df = df.reindex(mux).reset_index()
-# print (df)
-
-# quit()
-
-# Cross all possible 'group' values with the unique pairs of
+# Cross all possible `group` values with the unique pairs of
 # `(item_id, item_name)` that already exist in the data
-# complete(df, group, nesting(item_id, item_name))
-# c = Complete(df,columns=['group','value1'], nest=['item_id','item_name'])
-# c1 = Complete(df, nest=['item_id', 'item_name'], columns=['group'])
-c = Complete(df,columns=['group','item_id', 'item_name'])
-x = c.fill_df_2()
-print(x)
+print(complete(df, columns=["group"], nest=["item_id", "item_name"]))
+
+
+# You can also choose to fill in missing values. By default, both implicit
+# (new) and explicit (pre-existing) missing values are filled.
+print(complete(df, columns=["group"], nest=["item_id", "item_name"], fill={"value1": 0, "value2": 99}))
