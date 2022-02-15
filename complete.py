@@ -3,9 +3,11 @@ from typing import List
 import pandas as pd
 
 
-
 def complete(
-    df: pd.DataFrame, columns: List[str], nest: List[str] = None, fill: dict = None
+    df: pd.DataFrame,
+    columns: List[str or pd.Series],
+    nest: List[str] = None,
+    fill: dict = None,
 ) -> pd.DataFrame:
     """
     Given a dataframe and a list of columns,
@@ -18,7 +20,13 @@ def complete(
 class Complete:
     """complete function to replication the complete() function in R dplyr"""
 
-    def __init__(self, df: pd.DataFrame, columns: List, nest=None, fill=None):
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        columns: List[str or pd.Series],
+        nest: List[str] = None,
+        fill: dict = None,
+    ):
         """ """
         self.df = df
         self.nest = nest
@@ -56,7 +64,7 @@ class Complete:
 
         return merge_product_to_df()
 
-    def product_with_nest(self):
+    def product_with_nest(self) -> pd.DataFrame:
         def get_product():
             """ """
             product_list = []
@@ -86,20 +94,19 @@ class Complete:
 
         return merge_product_to_df()
 
-    def fill_df(self, df):
+    def fill_df(self, df) -> pd.DataFrame:
         """Fill Null values in the dataframe with the fill values defined in the fill paramater"""
         for key in self.fill:
             df[key] = df[key].fillna(self.fill[key])
         return df
 
-    def run(self):
+    def run(self) -> pd.DataFrame:
         """ """
         if self.fill is not None:
             if self.nest is not None:
                 return self.fill_df(self.product_with_nest())
             return self.fill_df(self.product_without_nest())
 
-        elif self.fill is None:
-            if self.nest is not None:
-                return self.product_with_nest()
-            return self.product_without_nest()
+        if self.nest is not None:
+            return self.product_with_nest()
+        return self.product_without_nest()
