@@ -1,3 +1,8 @@
+    """[summary]
+
+    Returns:
+        [type]: [description]
+    """
 from itertools import product
 from typing import List
 import pandas as pd
@@ -27,7 +32,7 @@ class Complete:
         nest: List[str] = None,
         fill: dict = None,
     ):
-        """ """
+        
         self.df = df
         self.nest = nest
         if all(isinstance(x, str) for x in columns):
@@ -45,6 +50,8 @@ class Complete:
         return self.df[self.nest].drop_duplicates(keep="first").values.tolist()
 
     def product_without_nest(self) -> pd.DataFrame:
+        """[summary]
+        """
         def get_product():
             product_list = []
             for series in self.columns:
@@ -56,7 +63,8 @@ class Complete:
             return df
 
         def merge_product_to_df():
-            """ """
+            """[summary] 
+            """
             all_headers = self.column_names
             complete_df = get_product()
             df_full = pd.merge(complete_df, self.df, how="left", on=all_headers)
@@ -65,8 +73,10 @@ class Complete:
         return merge_product_to_df()
 
     def product_with_nest(self) -> pd.DataFrame:
+        """[summary]
+        """
         def get_product():
-            """ """
+            """[summary]"""
             product_list = []
             product_list.append(self.nesting())
             for series in self.columns:
@@ -77,8 +87,7 @@ class Complete:
             return df
 
         def merge_product_to_df():
-            """ """
-
+            """[summary]"""
             all_headers = self.nest + self.column_names
             complete_df = get_product()
 
@@ -101,7 +110,7 @@ class Complete:
         return df
 
     def run(self) -> pd.DataFrame:
-        """ """
+        """[summary]"""
         if self.fill is not None:
             if self.nest is not None:
                 return self.fill_df(self.product_with_nest())
