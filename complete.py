@@ -4,7 +4,7 @@
         [type]: [description]
     """
 from itertools import product
-from typing import List
+from typing import List, Dict
 import pandas as pd
 
 
@@ -53,17 +53,17 @@ class Complete:
         """[summary]
         """
         def get_product():
+            """generate all possible combinations of the columns using product """
             product_list = []
             for series in self.columns:
                 product_list.append(list(set(series)))
 
             col_list = self.column_names
-
             df = pd.DataFrame(list(product(*product_list)), columns=col_list)
             return df
 
         def merge_product_to_df():
-            """[summary] 
+            """merge product to original df
             """
             all_headers = self.column_names
             complete_df = get_product()
@@ -76,7 +76,7 @@ class Complete:
         """[summary]
         """
         def get_product():
-            """[summary]"""
+            """generate all possible combinations of the columns using product with unique nest combinations"""
             product_list = []
             product_list.append(self.nesting())
             for series in self.columns:
@@ -87,7 +87,7 @@ class Complete:
             return df
 
         def merge_product_to_df():
-            """[summary]"""
+            """merge product to nest and original df"""
             all_headers = self.nest + self.column_names
             complete_df = get_product()
 
@@ -98,19 +98,18 @@ class Complete:
             complete_df2[self.column_names] = complete_df[self.column_names]
             del complete_df
             df_full = pd.merge(complete_df2, self.df, how="left", on=all_headers)
-
             return df_full
 
         return merge_product_to_df()
 
-    def fill_df(self, df) -> pd.DataFrame:
+    def fill_df(self, df: pd.DataFrame) -> pd.DataFrame:
         """Fill Null values in the dataframe with the fill values defined in the fill paramater"""
         for key in self.fill:
             df[key] = df[key].fillna(self.fill[key])
         return df
 
     def run(self) -> pd.DataFrame:
-        """[summary]"""
+        """Run the complete function based on fill option"""
         if self.fill is not None:
             if self.nest is not None:
                 return self.fill_df(self.product_with_nest())
